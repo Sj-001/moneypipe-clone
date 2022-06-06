@@ -23,14 +23,10 @@ describe("Factory", function () {
   });
 
   it("should create a new Stream", async function () {
-    var tx = await factory.genesis(
-      "Pese Barobar",
-      [
-        [addr1.address, 1, 2],
-        [addr2.address, 1, 2],
-      ],
-      mockERC20.address
-    );
+    var tx = await factory.genesis("Pese Barobar", [
+      [addr1.address, 1, 2],
+      [addr2.address, 1, 2],
+    ]);
 
     const rc = await tx.wait(); // 0ms, as tx is already confirmed
     rc.events = rc.events.find((event) => event.event === "ContractDeployed");
@@ -66,7 +62,7 @@ describe("Factory", function () {
     });
 
     it("should split ERC20 balance on calling withdrawERC20 function", async function () {
-      var tx = await stream.withdrawERC20();
+      var tx = await stream.withdrawERC20(mockERC20.address);
       await tx.wait();
 
       expect(await mockERC20.balanceOf(addr1.address)).to.equal(50);

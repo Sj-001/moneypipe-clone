@@ -10,10 +10,10 @@ contract Factory {
   constructor() {
     implementation = address(new Stream());
   }
-  function genesis(string calldata title, Stream.Member[] calldata members, address token) external returns (address) {
+  function genesis(string calldata title, Stream.Member[] calldata members) external returns (address) {
     address payable clone = payable(Clones.clone(implementation));
     Stream s = Stream(clone);
-    s.initialize(members, token);
+    s.initialize(members);
     emit ContractDeployed(msg.sender, clone, title);
     
     return clone;
